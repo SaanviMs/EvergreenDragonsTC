@@ -69,9 +69,27 @@ public final class TuningOpModes {
 
     private static PinpointView makePinpointView(PinpointLocalizer pl) {
         return new PinpointView() {
+
             GoBildaPinpointDriver.EncoderDirection parDirection = pl.initialParDirection;
             GoBildaPinpointDriver.EncoderDirection perpDirection = pl.initialPerpDirection;
 
+            @NonNull
+            @Override
+            public DcMotorSimple.Direction getPerpDirection() {
+                if(perpDirection == GoBildaPinpointDriver.EncoderDirection.FORWARD){
+                    return DcMotorSimple.Direction.FORWARD;
+                }
+                return DcMotorSimple.Direction.REVERSE;
+            }
+
+            @NonNull
+            @Override
+            public DcMotorSimple.Direction getParDirection() {
+                if(parDirection == GoBildaPinpointDriver.EncoderDirection.FORWARD){
+                    return DcMotorSimple.Direction.FORWARD;
+                }
+                return DcMotorSimple.Direction.REVERSE;
+            }
             @Override
             public void update() {
                 pl.driver.update();
@@ -157,10 +175,6 @@ public final class TuningOpModes {
                     perpEncs.add(new EncoderRef(0, 1));
                     lazyImu = new OTOSIMU(ol.otos);
 
-                    manager.register(metaForClass(OTOSAngularScalarTuner.class), new OTOSAngularScalarTuner(ol.otos));
-                    manager.register(metaForClass(OTOSLinearScalarTuner.class), new OTOSLinearScalarTuner(ol.otos));
-                    manager.register(metaForClass(OTOSHeadingOffsetTuner.class), new OTOSHeadingOffsetTuner(ol.otos));
-                    manager.register(metaForClass(OTOSPositionOffsetTuner.class), new OTOSPositionOffsetTuner(ol.otos));
                 }  else if (md.localizer instanceof PinpointLocalizer) {
                     PinpointView pv = makePinpointView((PinpointLocalizer) md.localizer);
                     encoderGroups.add(new PinpointEncoderGroup(pv));
@@ -251,10 +265,6 @@ public final class TuningOpModes {
                     perpEncs.add(new EncoderRef(0, 1));
                     lazyImu = new OTOSIMU(ol.otos);
 
-                    manager.register(metaForClass(OTOSAngularScalarTuner.class), new OTOSAngularScalarTuner(ol.otos));
-                    manager.register(metaForClass(OTOSLinearScalarTuner.class), new OTOSLinearScalarTuner(ol.otos));
-                    manager.register(metaForClass(OTOSHeadingOffsetTuner.class), new OTOSHeadingOffsetTuner(ol.otos));
-                    manager.register(metaForClass(OTOSPositionOffsetTuner.class), new OTOSPositionOffsetTuner(ol.otos));
                 } else {
                     throw new RuntimeException("unknown localizer: " + td.localizer.getClass().getName());
                 }
