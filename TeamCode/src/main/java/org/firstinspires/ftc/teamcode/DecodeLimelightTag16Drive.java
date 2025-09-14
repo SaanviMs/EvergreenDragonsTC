@@ -4,13 +4,14 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.List;
 
-@TeleOp(name = "FTC Limelight Tag16 Drive", group = "Sensor")
+@Autonomous(name = "FTC Limelight Tag16 Drive", group = "Sensor")
 public class DecodeLimelightTag16Drive extends LinearOpMode {
 
     private Limelight3A limelight;
@@ -22,12 +23,12 @@ public class DecodeLimelightTag16Drive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Map motors
-        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack = hardwareMap.get(DcMotor.class, "LeftBack");
+        rightBack = hardwareMap.get(DcMotor.class, "RightBack");
+        leftFront = hardwareMap.get(DcMotor.class, "LeftFront");
+        rightFront = hardwareMap.get(DcMotor.class, "RightFront");
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
 
         // Initialize Limelight
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
@@ -56,25 +57,25 @@ public class DecodeLimelightTag16Drive extends LinearOpMode {
 
                 if (tag16Detected) {
                     // Drive forward
-                    leftBack.setPower(0.4);
-                    rightBack.setPower(0.4);
-                    leftFront.setPower(0.4);
-                    rightBack.setPower(0.4);
+                    leftBack.setPower(0.3);
+                    rightBack.setPower(0.3);
+                    leftFront.setPower(0.3);
+                    rightBack.setPower(0.3);
                     telemetry.addLine("Driving forward");
                 } else {
                     // Spin slowly until tag 16 is detected
-                    leftBack.setPower(0.2);
-                    rightBack.setPower(0.2);
-                    leftFront.setPower(0.2);
-                    rightBack.setPower(0.2);
+                    leftBack.setPower(-0.1);
+                    rightBack.setPower(0.1);
+                    leftFront.setPower(-0.1);
+                    rightBack.setPower(0.1);
                     telemetry.addLine("Searching for Tag 16 → Spinning");
                 }
             } else {
                 // No data from Limelight
-                leftBack.setPower(0.2);
-                rightBack.setPower(0.2);
-                leftFront.setPower(0.2);
-                rightBack.setPower(0.2);
+                leftBack.setPower(-0.1);
+                rightBack.setPower(0.1);
+                leftFront.setPower(-0.1);
+                rightBack.setPower(0.1);
                 telemetry.addLine("No fiducial data → Spinning");
             }
 
