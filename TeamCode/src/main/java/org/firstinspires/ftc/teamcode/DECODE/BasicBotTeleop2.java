@@ -45,9 +45,9 @@ public class BasicBotTeleop2 extends OpMode {
 
     @Override
     public void loop() {
-        double x = -gamepad2.right_stick_x * 0.3; // This makes the robot strafe
-        double y = -gamepad2.left_stick_y * 1.1; // This makes the robot turn left and right
-        double rx = gamepad2.left_stick_x;        // This makes the robot go forward and backward
+        double x = -gamepad2.right_stick_x * 0.3; // Strafe
+        double y = gamepad2.left_stick_y * 1.1;   // Forward/backward
+        double rx = gamepad2.left_stick_x;        // Turn
 
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         double frontLeftPower  = (y + x + rx) / denominator;
