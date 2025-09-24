@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,17 +15,26 @@ public class Motifdetection extends LinearOpMode {
     // ⚠️ Change this to match your Limelight IP address
     private static final String LIMELIGHT_IP = "172.29.0.30";
 
-    // Which pipeline number to use (configure in Limelight UI)
-    private static final int APRILTAG_PIPELINE = 2;
+    // Default pipeline before detecting tags
+    private static final int DEFAULT_PIPELINE = 0;
+
+    // Drive motors
+    private DcMotor rightBack, leftBack, rightFront, leftFront;
 
     @Override
     public void runOpMode() {
+        // Initialize hardware mapping
+        rightBack = hardwareMap.get(DcMotor.class, "RightBack");
+        leftBack = hardwareMap.get(DcMotor.class, "LeftBack");
+        rightFront = hardwareMap.get(DcMotor.class, "RightFront");
+        leftFront = hardwareMap.get(DcMotor.class, "LeftFront");
+
         telemetry.addLine("Motif Detection Ready");
         telemetry.update();
 
-        // Set pipeline before start
-        setPipeline(APRILTAG_PIPELINE);
-        telemetry.addData("Pipeline", "Set to %d", APRILTAG_PIPELINE);
+        // Set default pipeline before start
+        setPipeline(DEFAULT_PIPELINE);
+        telemetry.addData("Pipeline", "Set to %d", DEFAULT_PIPELINE);
         telemetry.update();
 
         waitForStart();
@@ -37,9 +47,39 @@ public class Motifdetection extends LinearOpMode {
                 double ty = getNumberFromLimelight("ty");  // vertical offset
                 double tz = getNumberFromLimelight("tz");  // distance (if enabled)
 
-                if (tagId == 21 || tagId == 22 || tagId == 23) {
+                if (tagId == 21) {
                     telemetry.addData("Motif Tag Detected", "ID: %d", tagId);
                     telemetry.addData("Pose", "tx=%.2f, ty=%.2f, tz=%.2f", tx, ty, tz);
+
+                    // Switch to pipeline 1
+                    setPipeline(1);
+                    telemetry.addLine("Switched to pipeline 1");
+
+                    setPipeline(1);
+                    telemetry.addLine("Switched to pipeline 1");
+
+                } else if (tagId == 22) {
+                    telemetry.addData("Motif Tag Detected", "ID: %d", tagId);
+                    telemetry.addData("Pose", "tx=%.2f, ty=%.2f, tz=%.2f", tx, ty, tz);
+
+                    // Switch to pipeline 2
+                    setPipeline(2);
+                    telemetry.addLine("Switched to pipeline 2");
+
+                    setPipeline(1);
+                    telemetry.addLine("Switched to pipeline 1");
+
+                } else if (tagId == 23) {
+                    telemetry.addData("Motif Tag Detected", "ID: %d", tagId);
+                    telemetry.addData("Pose", "tx=%.2f, ty=%.2f, tz=%.2f", tx, ty, tz);
+
+                    // Switch to pipeline 3
+                    setPipeline(3);
+                    telemetry.addLine("Switched to pipeline 3");
+
+                    setPipeline(1);
+                    telemetry.addLine("Switched to pipeline 1");
+
                 } else {
                     telemetry.addLine("No motif tag (21/22/23) detected.");
                 }
