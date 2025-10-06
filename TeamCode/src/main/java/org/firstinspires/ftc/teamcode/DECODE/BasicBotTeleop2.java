@@ -45,9 +45,9 @@ public class BasicBotTeleop2 extends OpMode {
     @Override
     public void loop() {
 
-        // 🔁 Reversed drive and strafing
+        // Drive controls
         double x = gamepad2.right_stick_x * 0.3;
-        double y = -gamepad2.left_stick_y * 1.1;
+        double y = gamepad2.left_stick_y * 1.1;
         double rx = -gamepad2.left_stick_x;
 
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
@@ -62,18 +62,19 @@ public class BasicBotTeleop2 extends OpMode {
         rightBack.setPower(backRightPower);
 
 
-        double shooterPower = gamepad1.left_trigger;
+        double shooterPower = gamepad1.left_trigger*0.8;
         shooter.setPower(shooterPower);
 
-
+        // Intake + Gecko controls
         if (gamepad1.b) {
             intake.setPower(-1);
             geckoLeft.setPower(1);
             geckoRight.setPower(-1);
         } else if (gamepad1.right_trigger > 0.1) {
             intake.setPower(1);
-            geckoLeft.setPower(-1);
+        } else if (gamepad1.right_bumper) {
             geckoRight.setPower(1);
+            geckoLeft.setPower(-1);
         } else if (gamepad1.a) {
             intake.setPower(0);
             geckoLeft.setPower(-1);
