@@ -46,7 +46,7 @@ public class BasicBotTeleop2 extends OpMode {
     public void loop() {
 
         // Drive controls
-        double x = gamepad2.right_stick_x * 0.3;
+        double x = gamepad2.right_stick_x * 0.6;
         double y = gamepad2.left_stick_y * 1.1;
         double rx = -gamepad2.left_stick_x;
 
