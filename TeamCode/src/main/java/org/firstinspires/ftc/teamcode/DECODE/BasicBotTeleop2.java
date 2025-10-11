@@ -62,27 +62,33 @@ public class BasicBotTeleop2 extends OpMode {
         rightBack.setPower(backRightPower);
 
 
-        double shooterPower = gamepad1.left_trigger*0.8;
+        double shooterPower = gamepad1.left_trigger*0.67;
         shooter.setPower(shooterPower);
+
+        if(gamepad1.left_bumper){
+            shooter.setPower(-0.67);
+        }
 
         // Intake + Gecko controls
         if (gamepad1.b) {
             intake.setPower(-1);
             geckoLeft.setPower(1);
             geckoRight.setPower(-1);
-        } else if (gamepad1.right_trigger > 0.1) {
-            intake.setPower(1);
-        } else if (gamepad1.right_bumper) {
+        } else if (gamepad1.right_trigger>0.1) {
             geckoRight.setPower(1);
             geckoLeft.setPower(-1);
+            intake.setPower(1);
         } else if (gamepad1.a) {
             intake.setPower(0);
             geckoLeft.setPower(-1);
             geckoRight.setPower(1);
+        } else if (gamepad1.dpad_up){
+            intake.setPower(1);
         } else {
             intake.setPower(0);
             geckoLeft.setPower(0);
             geckoRight.setPower(0);
         }
+
     }
 }
